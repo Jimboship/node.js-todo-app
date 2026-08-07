@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo</title>
+  <link rel="stylesheet" href="/todo/todo.css" />
+  
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+<body>
+  <!-- Todo app wrapper -->
+  <div class="todo-app">
+    <!-- Header with title, description, and controls -->
+    <div class="header header-row">
+      <div>
+        <h1>My Todo List</h1>
+        <p>Keep your tasks organized in one place.</p>
+      </div>
+      <div class="header-right">
+        <div id="current-day" class="current-day"></div>
+        <button id="dark-toggle" class="more-btn" aria-label="Toggle dark">🌙</button>
+        <button id="more-btn" class="more-btn" aria-label="More">⋮</button>
+      </div>
+    </div>
+
+    <!-- New task input and selected date -->
+    <form id="todo-form" class="todo-form" onsubmit="return false;">
+      <input id="todo-input" type="text" placeholder="Enter a task" name="Name" required />
+      <input id="todo-date" type="date" aria-label="Select date" />
+      <button id="todo-add" class="btn-add">Add</button>
+    </form>
+
+    <!-- Form feedback message -->
+    <div id="form-message" class="form-message" role="alert"></div>
+
+    <!-- Main task panel including filters and task sections -->
+    <div class="task-panel">
+      <div class="task-panel-header">
+        <h2>Your tasks</h2>
+        <div class="task-panel-actions">
+          <!-- Filter buttons for task view -->
+          <div class="filters">
+            <button class="filter-btn" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="pending">Pending</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+            <button id="clear-filtered" class="filter-clear">Clear</button>
+          </div>
+          <!-- Toggle weekly task navigation -->
+          <button type="button" class="view-tasks">View tasks</button>
+        </div>
+      </div>
+
+      <!-- Weekly navigation pills (shown when requested) -->
+      <div id="week-nav" class="week-nav hidden"></div>
+
+      <!-- Daily task sections grouped by time of day -->
+      <div id="day-view" class="day-view">
+        <div class="day-sections">
+          <section class="time-section" data-section="morning">
+            <h3>
+              <button type="button" class="collapse-toggle" aria-expanded="true" aria-label="Collapse morning tasks">▼</button>
+              <span class="section-title">Morning</span>
+              <span class="section-icon" aria-hidden="true"><i class="fa-solid fa-sun morning icon"></i></span>
+              <span class="time-range">5AM - 12PM</span>
+            </h3>
+            <form class="section-form" data-section="morning" onsubmit="return false;">
+              <input class="section-time" type="time" />
+              <input class="section-input" type="text" placeholder="Task" />
+              <button class="section-add">Add</button>
+            </form>
+            <ul class="section-list" data-section="morning"></ul>
+          </section>
+
+          <section class="time-section" data-section="afternoon">
+            <h3>
+              <button type="button" class="collapse-toggle" aria-expanded="true" aria-label="Collapse afternoon tasks">▼</button>
+              <span class="section-title">Afternoon</span>
+              <span class="section-icon" aria-hidden="true"><i class="fa-solid fa-cloud-sun afternoon-icon"></i></span>
+              <span class="time-range">12PM - 5PM</span>
+            </h3>
+            <form class="section-form" data-section="afternoon" onsubmit="return false;">
+              <input class="section-time" type="time" />
+              <input class="section-input" type="text" placeholder="Task" />
+              <button class="section-add">Add</button>
+            </form>
+            <ul class="section-list" data-section="afternoon"></ul>
+          </section>
+
+          <section class="time-section" data-section="evening">
+            <h3>
+              <button type="button" class="collapse-toggle" aria-expanded="true" aria-label="Collapse evening tasks">▼</button>
+              <span class="section-title">Evening</span>
+              <span class="section-icon" aria-hidden="true"><i class="fa-solid fa-mountain-sun evening-icon"></i></span>
+              <span class="time-range">5PM - 8PM</span>
+            </h3>
+            <form class="section-form" data-section="evening" onsubmit="return false;">
+              <input class="section-time" type="time" />
+              <input class="section-input" type="text" placeholder="Task" />
+              <button class="section-add">Add</button>
+            </form>
+            <ul class="section-list" data-section="evening"></ul>
+          </section>
+
+          <section class="time-section" data-section="night">
+            <h3>
+              <button type="button" class="collapse-toggle" aria-expanded="true" aria-label="Collapse night tasks">▼</button>
+              <span class="section-title">Night</span>
+              <span class="section-icon" aria-hidden="true"><i class="fa solid fa-moon night-icon"></i></span>
+              <span class="time-range">8PM - 11PM</span>
+            </h3>
+            <form class="section-form" data-section="night" onsubmit="return false;">
+              <input class="section-time" type="time" />
+              <input class="section-input" type="text" placeholder="Task" />
+              <button class="section-add">Add</button>
+            </form>
+            <ul class="section-list" data-section="night"></ul>
+          </section>
+        </div>
+
+        <!-- Daily notes area for the selected date -->
+        <div class="notes-area">
+          <h3 id="notes-title">Notes for Day</h3>
+          <textarea id="day-notes" placeholder="Write notes for this day..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drawer overlay used to dim the page when drawer is open -->
+    <div id="drawer-overlay" class="drawer-overlay hidden"></div>
+
+    <!-- Side drawer with notes, day navigation, and weekly summary -->
+    <aside id="left-drawer" class="left-drawer hidden">
+      <div class="drawer-header">
+        <h3>Today Notes</h3>
+        <button id="drawer-close" aria-label="Close">✕</button>
+      </div>
+      <div class="drawer-content">
+        <!-- Current selected day's notes and task count -->
+        <div class="drawer-section drawer-today-notes">
+          <div id="drawer-dayname" class="drawer-dayname"></div>
+          <textarea id="drawer-notes" placeholder="Notes for today..."></textarea>
+          <div id="drawer-task-count" class="drawer-task-count"></div>
+        </div>
+
+        <!-- Quick day selector buttons inside drawer -->
+        <div class="drawer-section drawer-edit-days">
+          <h4>Day to edit</h4>
+          <div id="drawer-days" class="drawer-days"></div>
+        </div>
+
+        <!-- Weekly snapshot summary for task distribution -->
+        <div class="drawer-section drawer-week-snapshot">
+          <h4>This Week Snapshot</h4>
+          <div id="week-snapshot"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script src="/todo/todo.js"></script>
+  <script>
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
