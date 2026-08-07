@@ -10,7 +10,7 @@ const Task = require("./models/Task");
 
 
 const app = express();
-const PORT = precess.env.Port||3000;
+const PORT = process.env.PORT||3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
