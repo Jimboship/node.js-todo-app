@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -5,6 +7,7 @@ const bcrypt = require("bcryptjs");
 const session = require("express-session");
 const User = require("./models/User");
 const Task = require("./models/Task");
+
 
 const app = express();
 const PORT = precess.env.Port||3000;
@@ -29,7 +32,7 @@ function requireAuth(req, res, next) {
 }
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/logininDB")
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
