@@ -7,7 +7,7 @@ const User = require("./models/User");
 const Task = require("./models/Task");
 
 const app = express();
-const PORT = 3000;
+const PORT = precess.env.Port||3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -153,5 +153,5 @@ app.delete("/tasks/:id", requireAuth, async (req, res) => {
 });
 
 app.listen(PORT,"0.0.0.0", () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(` yongamas Server running on port:${PORT}`);
 });

@@ -234,6 +234,10 @@ body.dark .view-tasks { background:#0b1220; color:#cbd5e1 }
 .night-icon{
  color:#4DA6FF;
 }
+.footer{
+  color:#2563eb;
+  background-color:#0b1220
+}
 @media (max-width: 720px) {
   body {
     padding: 12px;
