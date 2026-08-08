@@ -1,4 +1,14 @@
-#  Node.js Todo App
+# Todo Application
+
+## 🚀 Live Demo
+
+**[🔗 View the Live Todo Application](https://node-js-todo-app-4v9k.onrender.com)**
+
+A full-stack Todo application built with Node.js, Express, MongoDB, and JavaScript, featuring user authentication and complete task management functionality.
+
+## 📂 Source Code
+
+**[GitHub Repository](https://github.com/Jimboship/node.js-todo-app)
 
 A full-stack Todo List web application built with Node.js, Express, MongoDB, HTML, CSS, and JavaScript.
 
